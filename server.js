@@ -14,14 +14,14 @@ const users = {
 }
 
 //trazer informação
-app.get('/',(req, res) =>{
+app.get('/teste',(req, res) =>{
     res.json({users})
 })
 //criar
-app.post('/',(req, res) =>{
+app.post('/teste',(req, res) =>{
    const {nome, cidade, idade} = req.body
 
-   users[nome] = {cidade, idade, nome}
+   users[nome] = {nome, idade, cidade}
    
     //console.log(req.body)
     res.json({msg:"Usuario criado com sucesso!"})
