@@ -1,11 +1,15 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 
+const mongoose = require("mongoose")
+
 const app = express()
 let port = 3000
 app.listen(port,() => {
     console.log(`Servidor rodando na porta ${port} `)
 })
+
+mongoose.connect("mongodb+srv://api-node2:123@cluster0.rh9od.mongodb.net/<dbname>?retryWrites=true&w=majority", {useNewUrlParser: true, useUnifiedTopology: true })
 
 app.use(bodyParser.json())
 
@@ -13,18 +17,22 @@ const users = {
 
 }
 
+
+const User =  require("./src/models/User")
 //trazer informação
 app.get('/teste',(req, res) =>{
     res.json({users})
 })
 //criar
-app.post('/teste',(req, res) =>{
+app.post('/',async (req, res) =>{
    const {nome, cidade, idade} = req.body
 
-   users[nome] = {nome, idade, cidade}
-   
+   //users[nome] = {nome, idade, cidade}
+   const user = await User.create({nome, cidade, idade})
     //console.log(req.body)
-    res.json({msg:"Usuario criado com sucesso!"})
+    //res.json({msg:"Usuario criado com sucesso!"})
+
+    res.json({user})
 })
 
 //users["Bruno"] = {idade:25, cidade:"RS"}
@@ -46,5 +54,7 @@ app.delete('/:nome',(req, res) =>{
     delete users[nome]
     res.json("Usuario deletado")
 })
+
+//MONGODB
 
 
