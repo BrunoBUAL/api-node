@@ -1,17 +1,22 @@
 const mogoose = require("mongoose")
 
-const UserSchema = new mogoose.Schema({
-    nome: {
-        type: String,
-        required: true,
-    },
-    cidade: {
-        type: String,
-    },
-    idade:{
-        type: Number,
-    }
+const UserSchema = new mogoose.Schema(
+    {
+        nome: {
+            type: String,
+            
+        },
+        email: {
+            type: String,
+            required: true,
+        },
+        cargo:{
+            type: String,
+        }
 
+    },
+    {
+        timestamps:true
     }
 )
 

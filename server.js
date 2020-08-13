@@ -10,7 +10,7 @@ app.listen(port,() => {
 })
 
 mongoose.connect("mongodb+srv://api-node2:123@cluster0.rh9od.mongodb.net/<dbname>?retryWrites=true&w=majority", 
-{
+{                   
     useNewUrlParser: true, 
     useUnifiedTopology: true, 
     useFindAndModify: false 

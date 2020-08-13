@@ -5,79 +5,100 @@ module.exports={
     async show(req,res){
         try{
             const {userId} = req.params
+
             const users = await User.find({
                 _id: userId
             })
-            console.log(users)
-            res.json({users})
+
+            if(users.length===0){
+                return res.status(401).json({error: "Usuario não cadastrado com este id!"})
+            }
+
+           // console.log(users)
+            return  res.status(200).json({users})
 
         }catch{
             console.log(erro)
-            res.json({msg:"Problemas para mostrar"})
+            return  res.status(500).json({msg:"Problemas para mostrar"})
         }
     },
 
     async list(req,res){
         try{
             const users = await User.find()
-            console.log(users)
-            res.json({users})
+           // console.log(users)
+            return res.status(200).json({users})
 
         }catch{
             console.log(erro)
-            res.json({msg:"Problemas para listar"})
+            return res.status(500).json({msg:"Problemas para listar"})
         }
     },
 
 
     async create(req, res){
         try{
-            const {nome, cidade, idade} = req.body
-         
+            const {nome, email, cargo} = req.body
+            
+            const userExist = await User.find({email})
+
+            if(userExist){
+                return res.status(401).json({error: "Já existe o email cadastrado!"})
+            }
            
-            const user = await User.create({nome, cidade, idade})
-             console.log(user)
+            const user = await User.create({nome,email, cargo})
+             //console.log(user)
              
-             res.json({user}) 
+             return res.status(201).json({user}) 
         }catch(erro){
             console.log(erro)
-            res.json({msg:"Problemas para criar"})
+            return res.status(500).json({msg:"Problemas para criar"})
         }
     },
     
     async update(req, res){
         try{
-            const {nome, cidade, idade} = req.body
+            const {nome, email, cargo} = req.body
             const {userId} = req.params
+
+            const userExist = await User.find({_id: userId})
+
+            if(!userExist){
+                return res.status(401).json({error: "Não foi possivel encontrar usuario cadastrado!"})
+            }
             const user = await User.findByIdAndUpdate({
                 _id: userId
             },{ 
                 nome,
-                cidade,
-                idade
+                email,
+                cargo
             },{
                 new:true
             })
-             console.log(user)
+            // console.log(user)
              
-             res.json({user}) 
+            return res.status(200).json({user}) 
         }catch(erro){
-            console.log(erro)
-            res.json({msg:"Problemas para atualizar"})
+           console.log(erro)
+          return  res.status(500).json({msg:"Problemas para atualizar"})
         }
     }, 
 
     async delete(req, res){
         try{
-            const {nome, cidade, idade} = req.body
             const {userId} = req.params
+            const userExist = await User.find({_id: userId})
+
+            if(!userExist){
+                return res.status(401).json({error: "Não foi possivel deletar, usuario não cadastrado!"})
+            }
             const user = await User.findByIdAndDelete({_id: userId})
-             console.log(user)
+             //console.log(user)
              
-             res.json({user}) 
+             return res.status(200).json({user}) 
         }catch(erro){
             console.log(erro)
-            res.json({msg:"Problemas para deletar"})
+            return res.status(500).json({msg:"Problemas para deletar"})
         }
     }, 
 
