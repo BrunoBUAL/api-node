@@ -9,7 +9,12 @@ app.listen(port,() => {
     console.log(`Servidor rodando na porta ${port} `)
 })
 
-mongoose.connect("mongodb+srv://api-node2:123@cluster0.rh9od.mongodb.net/<dbname>?retryWrites=true&w=majority", {useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect("mongodb+srv://api-node2:123@cluster0.rh9od.mongodb.net/<dbname>?retryWrites=true&w=majority", 
+{
+    useNewUrlParser: true, 
+    useUnifiedTopology: true, 
+    useFindAndModify: false 
+})
 
 app.use(bodyParser.json())
 
@@ -18,13 +23,17 @@ const users = {
 }
 
 
-const User =  require("./src/models/User")
+app.use('/', require('./src/routes.js'))
+
+
 //trazer informação
 app.get('/teste',(req, res) =>{
     res.json({users})
 })
+
+
 //criar
-app.post('/',async (req, res) =>{
+/*app.post('/',async (req, res) =>{
    const {nome, cidade, idade} = req.body
 
    //users[nome] = {nome, idade, cidade}
@@ -33,7 +42,7 @@ app.post('/',async (req, res) =>{
     //res.json({msg:"Usuario criado com sucesso!"})
 
     res.json({user})
-})
+})*/
 
 //users["Bruno"] = {idade:25, cidade:"RS"}
 
@@ -55,6 +64,5 @@ app.delete('/:nome',(req, res) =>{
     res.json("Usuario deletado")
 })
 
-//MONGODB
 
 
