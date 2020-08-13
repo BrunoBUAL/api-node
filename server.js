@@ -1,5 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const cors = require("cors")
 
 const mongoose = require("mongoose")
 
@@ -17,13 +18,9 @@ mongoose.connect("mongodb+srv://api-node2:123@cluster0.rh9od.mongodb.net/<dbname
 })
 
 app.use(bodyParser.json())
-
-const users = {
-
-}
-
-
+app.use(cors())
 app.use('/', require('./src/routes.js'))
+
 
 
 //trazer informação

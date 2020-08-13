@@ -14,7 +14,7 @@ module.exports={
                 return res.status(401).json({error: "Usuario não cadastrado com este id!"})
             }
 
-           // console.log(users)
+           
             return  res.status(200).json({persona})
 
         }catch{
@@ -38,14 +38,14 @@ module.exports={
 
     async create(req, res){
         try{
-            const {owner, name, sex, age, role, where_works, sccolarship,
+            const { owner, name, sex, age, role, where_works, scolarship,
                    communication_means, dreams, problems, company_help,
                    company_workers, company_role,image
             } = req.body
             
            
            
-            const persona = await Persona.create({owner, name, sex, age, role, where_works, scolarship,
+            const persona = await Persona.create({ owner, name, sex, age, role, where_works, scolarship,
                 communication_means, dreams, problems, company_help,
                 company_workers, company_role,image})
              //console.log(user)
@@ -59,7 +59,7 @@ module.exports={
     
     async update(req, res){
         try{
-            const {owner, name, sex, age, role, where_works, sccolarship,
+            const { name, sex, age, role, where_works, sccolarship,
                 communication_means, dreams, problems, company_help,
                 company_workers, company_role,image
             } = req.body
@@ -73,7 +73,7 @@ module.exports={
             const persona = await Persona.findByIdAndUpdate({
                 _id: personaId
             },{ 
-                owner, name, sex, age, role, where_works, sccolarship,
+                 name, sex, age, role, where_works, sccolarship,
                 communication_means, dreams, problems, company_help,
                 company_workers, company_role, image
             },{
@@ -93,11 +93,11 @@ module.exports={
             const {personaId} = req.params
             const personaExist = await Persona.find({_id: personaId})
 
-            if( personaExist){
+            if(!personaExist){
                 return res.status(401).json({error: "Não foi possivel deletar, usuario não cadastrado!"})
             }
-            const user = await Persona.findByIdAndDelete({_id: personaId})
-             //console.log(user)
+            const persona = await Persona.findByIdAndDelete({_id: personaId})
+            
              
              return res.status(200).json({persona}) 
         }catch(erro){

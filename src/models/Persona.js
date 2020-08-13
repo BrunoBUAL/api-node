@@ -1,9 +1,9 @@
 const mogoose = require("mongoose")
 
-const PersonaSchema = new mongoose.Schema(
+const PersonaSchema = new mogoose.Schema(
     {
         owner:{
-           type: mongoose.Schema.Types.ObjectId,
+           type: mogoose.Schema.Types.ObjectId,
            ref: "User",
            required: true
         },
@@ -45,7 +45,7 @@ const PersonaSchema = new mongoose.Schema(
         },
         image:{
             type:String
-        }
+        },
 
     },
     {
@@ -53,4 +53,4 @@ const PersonaSchema = new mongoose.Schema(
     }
 )
 
-module.exports =mogoose.model("Persona",UserSchema)
+module.exports =mogoose.model("Persona",PersonaSchema)
