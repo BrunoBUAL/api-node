@@ -40,10 +40,10 @@ module.exports={
         try{
             const {nome, email, cargo} = req.body
             
-            const userExist = await User.find({email})
+            const userExist = await User.findOne({email})
 
             if(userExist){
-                return res.status(401).json({error: "Já existe o email cadastrado!"})
+                return res.status(401).json({error: "Já existe um usuario com este email cadastrado!", user: userExist})
             }
            
             const user = await User.create({nome,email, cargo})
